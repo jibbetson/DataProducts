@@ -10,3 +10,6 @@ output: html_document
 - Class Website: [Developing Data Products on Coursera.org](https://www.coursera.org/learn/data-products)
 - Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
 - [Lectures](https://github.com/DataScienceSpecialization/courses/tree/master/09_DevelopingDataProducts/lectures)
+
+### R markdown
+- [James fancy presentation made using R markdown](JamesSlides.html)

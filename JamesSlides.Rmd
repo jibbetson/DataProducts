@@ -1,0 +1,69 @@
+---
+title: "My Fancy Presentation Made Using R Markdown"
+author: "James Ibbetson"
+date: "7/27/2017"
+output:
+  ioslides_presentation: default
+  slidy_presentation: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## My new slide
+Some silly content showing formatting options
+
+in plain text
+
+*in italicized text*
+
+**in bold text**
+
+`in code format, e.g. for (i %in% 1:10)`
+
+## My slide with headings, bullet lists, and number lists
+### A top level subheading
+#### A second level subheading
+- Bullet one
+- Bullet two
+- Bullet three
+
+1. Item a
+2. Item b
+3. Item c
+
+## My slide with R code
+First without showing the code...
+```{r}
+head(mtcars, 3)
+```
+
+...and now with the code
+```{r, echo = TRUE}
+head(mtcars, 3)
+```
+## My slide with more R code options
+```{r, comment="", background="blue"}
+head(mtcars, 3)
+```
+```{r, echo=TRUE, eval=FALSE}
+head(mtcars, 3)
+```
+
+***
+My slide without a title
+
+## My slide with plots
+
+```{r pressure}
+par(mfrow=c(1,2))
+    plot(pressure)
+    plot(pressure, col='red')
+```
+
