@@ -1,5 +1,9 @@
 ---
+<<<<<<< HEAD
 title: "My Fancy Presentation Made Using R Markdown"
+=======
+title: "My Fancy Presentation"
+>>>>>>> a08c9e286a7da4dfb8a662a6eb58e8fbccec97dc
 author: "James Ibbetson"
 date: "7/27/2017"
 output:
