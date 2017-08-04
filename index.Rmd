@@ -5,8 +5,8 @@ date: "August 3, 2017"
 output: html_document
 ---
 
-Instructor: [Brian Caffo](http://www.bcaffo.com/)
-
-Class Website: [Developing Data Products on Coursera.org](https://www.coursera.org/learn/data-products)
-
-Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
+### Course info
+- Instructor: [Brian Caffo](http://www.bcaffo.com/)
+- Class Website: [Developing Data Products on Coursera.org](https://www.coursera.org/learn/data-products)
+- Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
+- [Lectures](https://github.com/DataScienceSpecialization/courses/tree/master/09_DevelopingDataProducts/lectures)
