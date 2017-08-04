@@ -5,24 +5,8 @@ date: "August 3, 2017"
 output: html_document
 ---
 
+Instructor: [Brian Caffo](http://www.bcaffo.com/)
 
-This is a sample HTML document, including some of the default Rmd content to illustrate display of the page on a 'gh-pages' website on github.io until I post actual content related to the Coursera JHU Developing Data Products course project in August 2017. Note that all content is public.
+Class Website: [Developing Data Products on Coursera.org](https://www.coursera.org/learn/data-products)
 
-
-## Including Tables
-
-You can embed tables, for example:
-
-```{r cars}
-summary(cars)
-```
-
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter can be added to the code chunk to prevent printing of the R code that generated the plot.
+Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
