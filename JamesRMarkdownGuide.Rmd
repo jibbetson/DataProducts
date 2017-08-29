@@ -1,27 +1,26 @@
 ---
-<<<<<<< HEAD
 title: "My Fancy Presentation Made Using R Markdown"
-=======
-title: "My Fancy Presentation"
->>>>>>> a08c9e286a7da4dfb8a662a6eb58e8fbccec97dc
 author: "James Ibbetson"
-date: "7/27/2017"
+date: "8/29/2017"
 output:
   ioslides_presentation: default
   slidy_presentation: default
 ---
 
-```{r setup, include=FALSE}
+```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 ```
 ## R Markdown
 
 This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
+For a [cheatsheet](www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf).
+
+For a [reference guide](www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf).
+
 When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
 
-## My new slide
-Some silly content showing formatting options
+## My slide showing a few formatting options
 
 in plain text
 
@@ -53,10 +52,13 @@ head(mtcars, 3)
 head(mtcars, 3)
 ```
 ## My slide with more R code options
-```{r, comment="", background="blue"}
+Now with no ## marks for each line
+```{r, comment = "", background = "blue" }
 head(mtcars, 3)
 ```
-```{r, echo=TRUE, eval=FALSE}
+
+Just the code without evaluation
+```{r, echo = TRUE, eval = FALSE}
 head(mtcars, 3)
 ```
 

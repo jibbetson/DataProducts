@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>My Fancy Presentation</title>
+  <title>My Fancy Presentation Made Using R Markdown</title>
 
   <meta charset="utf-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -20,7 +20,7 @@
     var SLIDE_CONFIG = {
       // Slide settings
       settings: {
-                title: 'My Fancy Presentation',
+                title: 'My Fancy Presentation Made Using R Markdown',
                         useBuilds: true,
         usePrettify: true,
         enableSlideAreas: true,
@@ -93,7 +93,7 @@
       <h1 data-config-title><!-- populated from slide_config.json --></h1>
       <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
       <p data-config-presenter><!-- populated from slide_config.json --></p>
-            <p style="margin-top: 6px; margin-left: -2px;">7/27/2017</p>
+            <p style="margin-top: 6px; margin-left: -2px;">8/29/2017</p>
           </hgroup>
   </slide>
 
@@ -101,11 +101,13 @@
 
 <p>This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href='http://rmarkdown.rstudio.com' title=''>http://rmarkdown.rstudio.com</a>.</p>
 
+<p>For a <a href='www.rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf' title=''>cheatsheet</a>.</p>
+
+<p>For a <a href='www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf' title=''>reference guide</a>.</p>
+
 <p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.</p>
 
-</article></slide><slide class=''><hgroup><h2>My new slide</h2></hgroup><article  id="my-new-slide">
-
-<p>Some silly content showing formatting options</p>
+</article></slide><slide class=''><hgroup><h2>My slide showing a few formatting options</h2></hgroup><article  id="my-slide-showing-a-few-formatting-options">
 
 <p>in plain text</p>
 
@@ -153,10 +155,14 @@
 
 </article></slide><slide class=''><hgroup><h2>My slide with more R code options</h2></hgroup><article  id="my-slide-with-more-r-code-options">
 
+<p>Now with no ## marks for each line</p>
+
 <pre >               mpg cyl disp  hp drat    wt  qsec vs am gear carb
 Mazda RX4     21.0   6  160 110 3.90 2.620 16.46  0  1    4    4
 Mazda RX4 Wag 21.0   6  160 110 3.90 2.875 17.02  0  1    4    4
 Datsun 710    22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</pre>
+
+<p>Just the code without evaluation</p>
 
 <pre class = 'prettyprint lang-r'>head(mtcars, 3)</pre>
 
