@@ -1,7 +1,7 @@
 ---
-title: "Data Products Course Project"
+title: "Notes for Data Products Course Project"
 author: "James Ibbetson"
-date: "August 3, 2017"
+date: "August 28, 2017"
 output: html_document
 ---
 
@@ -11,5 +11,5 @@ output: html_document
 - Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
 - [Lectures](https://github.com/DataScienceSpecialization/courses/tree/master/09_DevelopingDataProducts/lectures)
 
-### R markdown
-- [James fancy presentation made using R markdown](JamesSlides.html)
+#### Using R markdown
+- [James fancy presentation made using R markdown](JamesRMarkdownGuide.html)
