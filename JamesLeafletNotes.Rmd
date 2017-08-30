@@ -1,0 +1,105 @@
+---
+title: "Playing with Leaflet"
+author: "James Ibbetson"
+date: "8/29/2017"
+always_allow_html: yes
+---
+
+### *Disclaimer*
+*The following notes draw heavily from the class lectures and Rmd file covering Leaflet. For the original material and appropriate credit please see the class [Lectures and source code](https://github.com/DataScienceSpecialization/Developing_Data_Products).*
+
+## Introduction
+
+Leaflet is one of the most popular Javascript libraries for
+creating interactive maps. The leaflet R package allows you
+to create your own leaflet maps without needing to know any
+Javascript!
+
+```{r, eval=FALSE}
+install.packages("leaflet")
+library(leaflet)
+```
+
+```{r, echo=FALSE}
+library(leaflet)
+```
+
+## The basics
+
+Getting started with leaflet is easy. The `leaflet()`
+function creates a map widget that you can store in a
+variable so that you can modify the map later on. 
+```{r, comment = "" }
+my_map <- leaflet()
+class(my_map)
+```
+
+Right now `my_map` is empty. You can add features to the map using 
+the pipe operator (`%>%`) just like in dplyr. The `addTiles()` function 
+adds mapping data from [Open Street Map](http://www.openstreetmap.org/). 
+Add markers to your map using the `addMarkers()` function by 
+specifying the longitude and latitude. Add the popup text for when you 
+click on the marker with the `popup` argument in `addMarkers()`.
+
+```{r, eval=FALSE}
+my_map <- leaflet() %>% 
+    addTiles() %>%
+    addMarkers(lat=53.430823, lng=-2.960835, popup="This is Anfield")
+my_map
+```
+
+```{r, echo=FALSE}
+my_map <- leaflet() %>% 
+    addTiles() %>%
+    addMarkers(lat=53.430823, lng=-2.960835, popup="This is Anfield")
+my_map
+```
+
+## Working with dataframes
+The `leaflet()` function is designed to work efficiently with dataframes as inputs.
+Multiple markers and their associated information can be passed through 
+directly as long as there are columns for latitude and longitude. You can even 
+add hyperlinks to the marker popups.
+```{r, eval=FALSE}
+uk_fun <- data.frame(name = c("Churchill War Rooms", "High Ropes Oxford", "Bletchley Park",
+                              "Stonehenge", "Berkhamsted Castle"),
+                      lat = c(51.502264, 51.653377, 51.997660, 51.178828, 51.763617),
+                      lng = c(-0.129039, -1.232407, -0.740686, -1.826247, -0.559281),
+                    sites = c(
+  "<a href='http://www.iwm.org.uk/visits/churchill-war-rooms'>Churchill War Rooms</a>",
+  "<a href='http://www.highropesoxford.com/'>High Ropes Oxford</a>",
+  "<a href='https://www.bletchleypark.org.uk'>Bletchley Park</a>",
+  "<a href='http://www.english-heritage.org.uk/visit/places/stonehenge/'>Stonehenge</a>",
+  "Berkhamsted Castle"))
+uk_fun %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup = uk_fun$sites)
+```
+
+```{r, echo=FALSE}
+uk_fun <- data.frame(name = c("Churchill War Rooms", "High Ropes Oxford", "Bletchley Park",
+                              "Stonehenge", "Berkhamsted Castle"),
+                      lat = c(51.502264, 51.653377, 51.997660, 51.178828, 51.763617),
+                      lng = c(-0.129039, -1.232407, -0.740686, -1.826247, -0.559281),
+                    sites = c(
+  "<a href='http://www.iwm.org.uk/visits/churchill-war-rooms'>Churchill War Rooms</a>",
+  "<a href='http://www.highropesoxford.com/'>High Ropes Oxford</a>",
+  "<a href='https://www.bletchleypark.org.uk'>Bletchley Park</a>",
+  "<a href='http://www.english-heritage.org.uk/visit/places/stonehenge/'>Stonehenge</a>",
+  "Berkhamsted Castle"))
+uk_fun %>%
+  leaflet() %>%
+  addTiles() %>%
+  addMarkers(popup = uk_fun$sites)
+```
+
+## There's lots more
+For more details about all the many, many, cool things you can do with the leaflet 
+package for R visit http://rstudio.github.io/leaflet/.
+
+
+
+
+
+

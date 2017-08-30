@@ -1,15 +1,18 @@
 ---
-title: "Notes for Data Products Course Project"
+title: "Notes for Data Products Course"
 author: "James Ibbetson"
-date: "August 28, 2017"
+date: "August 29, 2017"
 output: html_document
 ---
 
 ### Course info
 - Instructor: [Brian Caffo](http://www.bcaffo.com/)
+- Class [Lectures and source code](https://github.com/DataScienceSpecialization/Developing_Data_Products)
+- Class Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
 - Class Website: [Developing Data Products on Coursera.org](https://www.coursera.org/learn/data-products)
-- Textbook: [Developing Data Products in R](https://leanpub.com/ddp)
-- [Lectures](https://github.com/DataScienceSpecialization/courses/tree/master/09_DevelopingDataProducts/lectures)
 
 #### Using R markdown
-- [James fancy presentation made using R markdown](JamesRMarkdownGuide.html)
+- [My fancy presentation made using R markdown](JamesRMarkdownGuide.html)
+
+#### Using Leaflet for interactive maps
+- [My leaflet exploration webpage](JamesLeafletNotes.html)
