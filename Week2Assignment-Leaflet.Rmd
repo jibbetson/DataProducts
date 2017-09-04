@@ -1,68 +1,22 @@
 ---
-title: "Playing with Leaflet"
+title: "UK Summer 2017 Sites"
 author: "James Ibbetson"
-date: "8/29/2017"
+date: "September 2, 2017"
 always_allow_html: yes
 ---
 
-### *Disclaimer*
-*The following notes draw heavily from the class lectures and Rmd file covering Leaflet. For the original material and appropriate credit please see the class [Lectures and source code](https://github.com/DataScienceSpecialization/Developing_Data_Products).*
-
-## Introduction
-
-Leaflet is one of the most popular Javascript libraries for
-creating interactive maps. The leaflet R package allows you
-to create your own leaflet maps without needing to know any
-Javascript!
-
-```{r, eval=FALSE}
-install.packages("leaflet")
-library(leaflet)
-```
-
 ```{r, echo=FALSE}
 library(leaflet)
 ```
 
-## The basics
-
-Getting started with leaflet is easy. The `leaflet()`
-function creates a map widget that you can store in a
-variable so that you can modify the map later on. 
-```{r, comment = "" }
-my_map <- leaflet()
-class(my_map)
-```
-
-Right now `my_map` is empty. You can add features to the map using 
-the pipe operator (`%>%`) just like in dplyr. The `addTiles()` function 
-adds mapping data from [Open Street Map](http://www.openstreetmap.org/). 
-Add markers to your map using the `addMarkers()` function by 
-specifying the longitude and latitude. Add the popup text for when you 
-click on the marker with the `popup` argument in `addMarkers()`.
-
-```{r, eval=FALSE}
-my_map <- leaflet() %>% 
-    addTiles() %>%
-    addMarkers(lat=53.430823, lng=-2.960835, popup="This is Anfield")
-my_map
-```
-
-```{r, echo=FALSE}
-my_map <- leaflet() %>% 
-    addTiles() %>%
-    addMarkers(lat=53.430823, lng=-2.960835, popup="This is Anfield")
-my_map
-```
-
-## Working with dataframes
+## Using leaflet with dataframes
 The leaflet package in R is designed to work efficiently with dataframes as inputs for `leaflet()` and its related functions.
 Data for multiple markers and their associated information can be passed through 
 directly as long as there are columns for latitude and longitude. You can even 
 add hyperlinks to the marker popups. Plus many more options...
 
 Here's an example using a simple dataframe with five entries:
-```{r, eval=FALSE}
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
 uk_fun <- data.frame(name = c("Churchill War Rooms", "High Ropes Oxford", "Bletchley Park",
                               "Stonehenge", "Berkhamsted Castle"),
                       lat = c(51.502264, 51.653377, 51.997660, 51.178828, 51.763617),
@@ -80,7 +34,7 @@ uk_fun %>%
   setView(lng=-1.2, lat=51.45, zoom = 8)  # specifies map center & zoom
 ```
 
-```{r, echo=FALSE}
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
 uk_fun <- data.frame(name = c("Churchill War Rooms", "High Ropes Oxford", "Bletchley Park",
                               "Stonehenge", "Berkhamsted Castle"),
                       lat = c(51.502264, 51.653377, 51.997660, 51.178828, 51.763617),
@@ -97,11 +51,8 @@ uk_fun %>%
   addMarkers(popup = uk_fun$sites) %>%
   setView(lng=-1.2, lat=51.45, zoom = 8)  # specifies map center & zoom
 ```
-
-## Suppressing errors and warnings
-The example above works but notice the annoying `## Assuming 'lng' and 'lat' are longitude and latitude, respectively` message in the output. To suppress this, use the `message` option `{r, eval=FALSE, warning=FALSE, message=FALSE}` in the chunk header.
-
-## There's lots more
+  
+### More
 For more details about all the many, many, cool things you can do with the leaflet 
 package for R visit http://rstudio.github.io/leaflet/.
 
