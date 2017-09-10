@@ -1,0 +1,121 @@
+---
+title: "My Plotly Notes"
+author: "James Ibbetson"
+date: "September, 2017"
+always_allow_html: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+### *Disclaimer*
+*The following notes draw heavily from the class lectures and Rmd file covering Plotly. For the original material and appropriate credit please see the class [Lectures and source code](https://github.com/DataScienceSpecialization/Developing_Data_Products).*
+
+*Some function notes also come directly from the official R Documentation files.* 
+
+### What is Plotly?
+Plotly is a web application for creating and sharing data visualizations. Most importantly, the data plots it creates are interactive.  
+  
+Plotly can work with several programming languages and applications including R,
+Python, and Microsoft Excel.
+
+### Plotly for R
+```r
+install.packages("plotly")
+library(plotly)
+```  
+An extensive reference for using plotly in R can be found at [https://plot.ly/r/reference/](https://plot.ly/r/reference/).  
+
+The most basic function is `plot_ly()`, with the simple format of `p <- plot_ly(data = df, ~x = x column name, ~y = y column name, type = type of plot)`. However, this varies depending on the type and `plot_ly()` will try to create a sensible plot based on the information you give it, inferring as needed.
+
+### A simple scatterplot
+```{r, echo=TRUE, message=FALSE}
+library(plotly)
+plot_ly(mtcars, x = ~wt, y = ~mpg, type = "scatter")
+```
+
+### A more complicated scatterplot
+
+By specifying the `color` and `size` arguments you can make each point in your scatterplot a different color and size.
+
+```{r, echo=TRUE, message=FALSE}
+plot_ly(mtcars, x = ~wt, y = ~mpg, type = "scatter", 
+        color = ~factor(cyl), size = ~hp)
+```
+
+### Time series (a plotly aside)
+Time series objects are a special dataset type in which multiple observations (i.e. each row of data) are sampled at equispaced points in time. Being such a common and useful type, R has a collection of functions to work with time series.
+The function `ts()` is used to create a time series -ts- object from a data vector x. Additional key arguments are start, end, and frequency (respectively, the time of the first observation, last observation, and sampling frequency within the natural time period.)
+
+The function `tsp()` returns the key attributes (in a sense, the meta data) of a ts object.
+
+The functions `start()` and `end()` return the time of the first and last observation. Both return a vector length 2, with the first value being the time period, and the second being the fraction of the time period.
+
+The function `time()` creates a vector of times at which a series was sampled, from the `tsp()` attributes.
+
+The functions `cycle()`, `frequency()`, and `deltat()` return the positions in the cycle of each observation, the number of samples per unit time, and the time interval between observations, respectively.
+
+As a quick example, we can use the `data(airmiles)` data set, which is the revenue passenger miles flown by US airlines for each year from 1937 to 1960:
+
+```{r, echo=TRUE, comment=""}
+class(airmiles)
+tsp(airmiles)
+start(airmiles)
+head(airmiles)
+head(time(airmiles))
+```
+
+Line graphs are the default graph for `plot_ly()`. They're of course useful for
+showing change over time:
+```{r, echo=TRUE, message=FALSE}
+plot_ly(x = time(airmiles), y = airmiles, type = "scatter", mode = "lines")
+```
+
+### A list of plotly graph types
+The following is a partial list of the `type = "..."` or `type = '...'` argument allowed by `plot_ly()`.<br>
+scatter<br>
+histogram<br>
+box<br>
+chloropleth<br>
+heatmap<br>
+surface<br>
+scatter3d<br>
+<br>
+The last two in the list are 3D plots.<br>
+<br>
+Also keep in mind that the set of required arguments can change - and be a lot - depending on the `type` selected.
+
+### Multi-line plots
+To draw multiple lines on the same graph, plotly requires the data to be a **dataframe** and **organized in long and narrow format**. In other words, all the y data must be in one column, all the x data must be in a second column, and there must be a third column acting like a single factor variable for the set of {x, y}). The latter is passed to the `color = ` argument in `plot_ly()`.
+
+A recommended way to accomplish the required format is by using functions like `gather()` and `mutate()` in the `tidyr` and `dplyr` packages. They are "must use" packages for manipulating data sets. Here's an example:
+
+```{r, echo=TRUE, message=FALSE}
+library(plotly)
+library(tidyr)
+library(dplyr)
+data("EuStockMarkets")
+stocks <- as.data.frame(EuStockMarkets) %>%
+  gather(index, price) %>%
+  mutate(time = rep(time(EuStockMarkets), 4))
+plot_ly(stocks, x = ~time, y = ~price, color = ~index, type = "scatter", mode = "lines")
+```
+
+### Heatmaps
+Create a heatmap by using the `type = "heatmap"` argument.
+
+```{r, echo=TRUE, message=FALSE}
+terrain1 <- matrix(rnorm(100*100), nrow = 100, ncol = 100)
+plot_ly(z = ~terrain1, type = "heatmap")
+```
+
+
+### More plotly resources
+
+- [The Plolty Website](https://plot.ly/)
+- [The Plotly R API](https://plot.ly/r/)
+- [The Plotly R Package on GitHub](https://github.com/ropensci/plotly)
+- [The Plotly R Cheatsheet](https://images.plot.ly/plotly-documentation/images/r_cheat_sheet.pdf)
+- ["Plotly for R" book by Carson Sievert](https://cpsievert.github.io/plotly_book/)
+

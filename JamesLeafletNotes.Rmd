@@ -101,6 +101,43 @@ uk_fun %>%
 ## Suppressing errors and warnings
 The example above works but notice the annoying `## Assuming 'lng' and 'lat' are longitude and latitude, respectively` message in the output. To suppress this, use the `message` option `{r, eval=FALSE, warning=FALSE, message=FALSE}` in the chunk header.
 
+## More popup details
+The following is code I reviewed from a [classmate's leaflet assignment](http://rpubs.com/DanielD/302176). Note also the insertion of linebreaks in the html output, which can be achieved one of two ways: either type \<br>\ or add two spaces at the end of a line.
+
+*Create the fields that will be used to provide the following details for the map:  
+-The latitude and longitude of each school location  
+-The details that will appear in the popup when a school location is clicked  
+-The colour of the circle that will appear around each school*  
+
+```{r, eval=FALSE}
+latLng <- data.frame(lat=schoolEnrolments$Y, lng=schoolEnrolments$X)
+
+schoolPopup <- paste0("School Name: ", schoolEnrolments$School_Name.x, "<br>",
+                      "Town: ", schoolEnrolments$Address_Town, "<br>",
+                      "Type: ", schoolEnrolments$School_Type.x, "<br>",
+                      "Sector: ", schoolEnrolments$Education_Sector.x, "<br>",
+                      "Total Enrolments (FTE): ", schoolEnrolments$Grand.Total)
+
+schoolColour <- ifelse(schoolEnrolments$Grand.Total < 500, "green",
+                       ifelse(schoolEnrolments$Grand.Total < 1000, "blue",
+                              ifelse(schoolEnrolments$Grand.Total < 2000, "orange", "red")))
+```
+
+*Show the Interactive Map using the details defined and set the following:<br>
+- clustering of schools<br>
+- the size of the coloured circle around each school<br>
+- a legend of the enrolment numbers used in setting the colours of the circles around each school*<br>
+```{r, eval=FALSE}
+latLng %>%
+    leaflet() %>%
+    addTiles() %>%
+    addMarkers(clusterOptions = markerClusterOptions(), icon = schoolIcon, popup = schoolPopup) %>%
+    addCircles(weight = 2, radius = sqrt(schoolEnrolments$Grand.Total) * 2, color = schoolColour) %>%
+    addLegend(title = "Total Enrolments (FTE)",
+              labels = c("< 500", "500 to < 1000", "1000 to < 2000", ">= 2000"),
+              colors = c("green", "blue", "orange", "red"))
+```
+
 ## There's lots more
 For more details about all the many, many, cool things you can do with the leaflet 
 package for R visit http://rstudio.github.io/leaflet/.

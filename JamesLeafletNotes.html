@@ -153,12 +153,12 @@ class(my_map)</code></pre>
     addTiles() %&gt;%
     addMarkers(lat=53.430823, lng=-2.960835, popup=&quot;This is Anfield&quot;)
 my_map</code></pre>
-<div id="htmlwidget-94714fbd60fe94bca0f3" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-94714fbd60fe94bca0f3">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[53.430823,-2.960835,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"This is Anfield",null,null,null,null,null,null]}],"limits":{"lat":[53.430823,53.430823],"lng":[-2.960835,-2.960835]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-3d6cd6f110294ead0f58" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3d6cd6f110294ead0f58">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[53.430823,-2.960835,null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},"This is Anfield",null,null,null,null,null,null]}],"limits":{"lat":[53.430823,53.430823],"lng":[-2.960835,-2.960835]}},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="working-with-dataframes" class="section level2">
 <h2>Working with dataframes</h2>
-<p>The leaflet package in R is designed to work efficiently with dataframes as inputs for <code>leaflet()</code> and its related functions. Data for multiple markers and their associated information can be passed through directly as long as there are columns for latitude and longitude. You can even add hyperlinks to the marker popups.</p>
+<p>The leaflet package in R is designed to work efficiently with dataframes as inputs for <code>leaflet()</code> and its related functions. Data for multiple markers and their associated information can be passed through directly as long as there are columns for latitude and longitude. You can even add hyperlinks to the marker popups. Plus many more options…</p>
 <p>Here’s an example using a simple dataframe with five entries:</p>
 <pre class="r"><code>uk_fun &lt;- data.frame(name = c(&quot;Churchill War Rooms&quot;, &quot;High Ropes Oxford&quot;, &quot;Bletchley Park&quot;,
                               &quot;Stonehenge&quot;, &quot;Berkhamsted Castle&quot;),
@@ -173,14 +173,43 @@ my_map</code></pre>
 uk_fun %&gt;%
   leaflet() %&gt;%
   addTiles() %&gt;%
-  addMarkers(popup = uk_fun$sites)</code></pre>
+  addMarkers(popup = uk_fun$sites) %&gt;%
+  setView(lng=-1.2, lat=51.45, zoom = 8)  # specifies map center &amp; zoom</code></pre>
 <pre><code>## Assuming 'lng' and 'lat' are longitude and latitude, respectively</code></pre>
-<div id="htmlwidget-140fae700a22fcf07249" style="width:672px;height:480px;" class="leaflet html-widget"></div>
-<script type="application/json" data-for="htmlwidget-140fae700a22fcf07249">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[51.502264,51.653377,51.99766,51.178828,51.763617],[-0.129039,-1.232407,-0.740686,-1.826247,-0.559281],null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["<a href='http://www.iwm.org.uk/visits/churchill-war-rooms'>Churchill War Rooms<\/a>","<a href='http://www.highropesoxford.com/'>High Ropes Oxford<\/a>","<a href='https://www.bletchleypark.org.uk'>Bletchley Park<\/a>","<a href='http://www.english-heritage.org.uk/visit/places/stonehenge/'>Stonehenge<\/a>","Berkhamsted Castle"],null,null,null,null,null,null]}],"limits":{"lat":[51.178828,51.99766],"lng":[-1.826247,-0.129039]}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-23f8c64cd7cfafe6f485" style="width:672px;height:480px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-23f8c64cd7cfafe6f485">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"maxNativeZoom":null,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"continuousWorld":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":null,"unloadInvisibleTiles":null,"updateWhenIdle":null,"detectRetina":false,"reuseTiles":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addMarkers","args":[[51.502264,51.653377,51.99766,51.178828,51.763617],[-0.129039,-1.232407,-0.740686,-1.826247,-0.559281],null,null,null,{"clickable":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},["<a href='http://www.iwm.org.uk/visits/churchill-war-rooms'>Churchill War Rooms<\/a>","<a href='http://www.highropesoxford.com/'>High Ropes Oxford<\/a>","<a href='https://www.bletchleypark.org.uk'>Bletchley Park<\/a>","<a href='http://www.english-heritage.org.uk/visit/places/stonehenge/'>Stonehenge<\/a>","Berkhamsted Castle"],null,null,null,null,null,null]}],"limits":{"lat":[51.178828,51.99766],"lng":[-1.826247,-0.129039]},"setView":[[51.45,-1.2],8,[]]},"evals":[],"jsHooks":[]}</script>
 </div>
 <div id="suppressing-errors-and-warnings" class="section level2">
 <h2>Suppressing errors and warnings</h2>
 <p>The example above works but notice the annoying <code>## Assuming 'lng' and 'lat' are longitude and latitude, respectively</code> message in the output. To suppress this, use the <code>message</code> option <code>{r, eval=FALSE, warning=FALSE, message=FALSE}</code> in the chunk header.</p>
+</div>
+<div id="more-popup-details" class="section level2">
+<h2>More popup details</h2>
+<p>The following is code I reviewed from a <a href="http://rpubs.com/DanielD/302176">classmate’s leaflet assignment</a>. Note also the insertion of linebreaks in the html output, which can be achieved one of two ways: either type &lt;br&gt; or add two spaces at the end of a line.</p>
+<p><em>Create the fields that will be used to provide the following details for the map:<br />
+-The latitude and longitude of each school location<br />
+-The details that will appear in the popup when a school location is clicked<br />
+-The colour of the circle that will appear around each school</em></p>
+<pre class="r"><code>latLng &lt;- data.frame(lat=schoolEnrolments$Y, lng=schoolEnrolments$X)
+
+schoolPopup &lt;- paste0(&quot;School Name: &quot;, schoolEnrolments$School_Name.x, &quot;&lt;br&gt;&quot;,
+                      &quot;Town: &quot;, schoolEnrolments$Address_Town, &quot;&lt;br&gt;&quot;,
+                      &quot;Type: &quot;, schoolEnrolments$School_Type.x, &quot;&lt;br&gt;&quot;,
+                      &quot;Sector: &quot;, schoolEnrolments$Education_Sector.x, &quot;&lt;br&gt;&quot;,
+                      &quot;Total Enrolments (FTE): &quot;, schoolEnrolments$Grand.Total)
+
+schoolColour &lt;- ifelse(schoolEnrolments$Grand.Total &lt; 500, &quot;green&quot;,
+                       ifelse(schoolEnrolments$Grand.Total &lt; 1000, &quot;blue&quot;,
+                              ifelse(schoolEnrolments$Grand.Total &lt; 2000, &quot;orange&quot;, &quot;red&quot;)))</code></pre>
+<p><em>Show the Interactive Map using the details defined and set the following:<br> - clustering of schools<br> - the size of the coloured circle around each school<br> - a legend of the enrolment numbers used in setting the colours of the circles around each school</em><br></p>
+<pre class="r"><code>latLng %&gt;%
+    leaflet() %&gt;%
+    addTiles() %&gt;%
+    addMarkers(clusterOptions = markerClusterOptions(), icon = schoolIcon, popup = schoolPopup) %&gt;%
+    addCircles(weight = 2, radius = sqrt(schoolEnrolments$Grand.Total) * 2, color = schoolColour) %&gt;%
+    addLegend(title = &quot;Total Enrolments (FTE)&quot;,
+              labels = c(&quot;&lt; 500&quot;, &quot;500 to &lt; 1000&quot;, &quot;1000 to &lt; 2000&quot;, &quot;&gt;= 2000&quot;),
+              colors = c(&quot;green&quot;, &quot;blue&quot;, &quot;orange&quot;, &quot;red&quot;))</code></pre>
 </div>
 <div id="theres-lots-more" class="section level2">
 <h2>There’s lots more</h2>

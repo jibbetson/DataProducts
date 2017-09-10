@@ -36,7 +36,7 @@ in plain text
 - Bullet one
 - Bullet two
 - Bullet three
-
+<br> <br>
 1. Item a
 2. Item b
 3. Item c
@@ -46,7 +46,7 @@ First without showing the code...
 ```{r}
 head(mtcars, 3)
 ```
-
+<br>
 ...and now with the code
 ```{r, echo = TRUE}
 head(mtcars, 3)

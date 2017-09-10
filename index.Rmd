@@ -1,7 +1,7 @@
 ---
 title: "Notes for Data Products Course"
 author: "James Ibbetson"
-date: "Last updated September 2, 2017"
+date: "Last updated September 10, 2017"
 output: html_document
 ---
 
@@ -17,3 +17,6 @@ output: html_document
 #### Using Leaflet for interactive maps
 - [My leaflet exploration webpage](JamesLeafletNotes.html)
 - [Leaflet assignment](Week2Assignment-Leaflet.html)
+
+#### Using plotly for interactive plots
+- [My plotly exploration notes](JamesPlotlyNotes.html)
