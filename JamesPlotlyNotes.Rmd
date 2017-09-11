@@ -27,7 +27,7 @@ library(plotly)
 ```  
 An extensive reference for using plotly in R can be found at [https://plot.ly/r/reference/](https://plot.ly/r/reference/).  
 
-The most basic function is `plot_ly()`, with the simple format of `p <- plot_ly(data = df, ~x = x column name, ~y = y column name, type = type of plot)`. However, this varies depending on the type and `plot_ly()` will try to create a sensible plot based on the information you give it, inferring as needed.
+The most basic function is `plot_ly()`, with the simple format of `p <- plot_ly(data = df, ~x = x column name, ~y = y column name, type = type of plot)`. However, the exact syntax varies depending on the type of plot so check references. That said, `plot_ly()` will try to create a sensible plot based on the information you give it, inferring as needed.
 
 ### A simple scatterplot
 ```{r, echo=TRUE, message=FALSE}
@@ -113,7 +113,7 @@ plot_ly(z = ~terrain1, type = "heatmap")
 
 ### More plotly resources
 
-- [The Plolty Website](https://plot.ly/)
+- [The Plotly Website](https://plot.ly/)
 - [The Plotly R API](https://plot.ly/r/)
 - [The Plotly R Package on GitHub](https://github.com/ropensci/plotly)
 - [The Plotly R Cheatsheet](https://images.plot.ly/plotly-documentation/images/r_cheat_sheet.pdf)

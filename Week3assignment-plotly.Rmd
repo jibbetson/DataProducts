@@ -1,0 +1,56 @@
+---
+title: "Week 3 Assignment (Plotly)"
+author: "James Ibbetson"
+date: "September 10, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE, comment=""}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## Background
+
+This is an R Markdown presentation demonstrating an interactive plot created with the `plotly` package. It also makes use of the `dplyr` and `tidyr` packages for manipulating dataframes.
+
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+library(plotly)
+library(dplyr)
+library(tidyr)
+```
+<br>
+For the example dataset, I chose to download housing price data for California, Florida, North Carolina, and Texas from the [Federal Reserve Bank of St. Louis](https://fred.stlouisfed.org/release?rid=171). The datasets, which cover the period from 1975 to 2017, are available as individual CSV files. 
+
+## Data processing
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+allfiles <- lapply(list.files(pattern="*.csv"), 
+                   read.csv, stringsAsFactors = FALSE)
+df <- as.data.frame(allfiles[1])
+for (i in 2:4) df <- inner_join(df, as.data.frame(allfiles[i]))
+names(df) <- c("period", "California", "Florida", "NCarolina", "Texas")
+head(df)
+```
+
+## More data processing
+Convert the data to a time series object using `ts()`:
+```{r, echo=TRUE, warning=FALSE, message=FALSE}
+dts <- ts(df[ , -1], start=c(1975, 1), frequency=4)
+```
+
+Convert to the long format dataframe required by `plot_ly()`, and then plot:
+```{r, echo=TRUE, eval=FALSE}
+prices <- as.data.frame(dts) %>% 
+    gather(state, price) %>%
+    mutate(year = rep(time(dts), 4))
+plot_ly(prices, x = ~year, y = ~price, color = ~state, 
+        type = "scatter", mode = "lines")
+```
+
+## Relative House Prices in 4 States
+1975-2017 (1980 Q1 = 100)
+```{r, echo=FALSE}
+prices <- as.data.frame(dts) %>% gather(state, price) %>%
+    mutate(year = rep(time(dts), 4))
+plot_ly(prices, x = ~year, y = ~price, color = ~state, 
+        type = "scatter", mode = "lines")
+```
