@@ -216,7 +216,7 @@ div.tocify {
 
 <h1 class="title toc-ignore">Notes for Shiny</h1>
 <h4 class="author"><em>James Ibbetson</em></h4>
-<h4 class="date"><em>9/24/2017</em></h4>
+<h4 class="date"><em>Last updated 10/28/2017</em></h4>
 
 </div>
 
@@ -227,95 +227,153 @@ div.tocify {
 </div>
 <div id="shiny-overview" class="section level2">
 <h2>Shiny overview</h2>
-<p>Shiny is an R package that creates <strong>interactive</strong> presentations. Interactive means the viewers of the presentation can change the assumptions underlying what’s presented and see the results change immediately, as on a web page.</p>
-<p>To get shiny started in R:<br />
-<code>install.packages(&quot;shiny&quot;)</code><br />
-<code>library(shiny)</code></p>
+<p>Shiny is an R package that creates <strong>interactive</strong> presentations or webpages. Interactive means the viewers of the presentation can change the assumptions underlying what’s presented and see the results change immediately.</p>
+<p>To get Shiny started in R:</p>
+<pre class="r"><code>install.packages(&quot;shiny&quot;)  
+library(shiny)</code></pre>
 </div>
 <div id="shiny-app-structure" class="section level2">
 <h2>Shiny app structure</h2>
-<p>Each shiny project or app is contained within a directory whose name is the name of the app. For example, the directory <code>myCoolApp/</code> would contain the app <strong>myCoolApp</strong>.</p>
-<p>A shiny app consists of two main objects:</p>
+<p>Each Shiny project or app is contained within a directory whose name is the name of the app. For example, the directory <code>myCoolApp/</code> would contain all the files for the app <strong>myCoolApp</strong>.</p>
+<p>At a fundamental level, a Shiny app consists of two objects:</p>
 <ul>
-<li>A <code>ui</code> object, which defines how your app looks and creates the user input widgets.</li>
-<li>A <code>server</code> function object, which controls what the app does and generates a web page.</li>
+<li>A <code>ui</code> object, which defines how your app looks. Use it to create the user input widgets, and define (but not build) the output objects.<br />
+</li>
+<li>A <code>server</code> object, which controls what the app does by building the output. In other words, it builds a web page.</li>
 </ul>
-<p>These two objects are interdependent. Changes in the ui cause the server function to be re-run, which updates the web page in real time.</p>
-<p>Both objects can be defined in a single file called <code>app.R</code> or as separate files called <code>ui.R</code> and <code>server.R</code>. RStudio provides both as options when creating a new Shiny App from the menu. ‘Showcase’ mode (see below) seems to work better with the latter approach.</p>
-</div>
-<div id="shiny-app-template" class="section level2">
-<h2>Shiny app template</h2>
+<p>These two objects are interdependent. Changes in any of the <code>ui</code> inputs cause the <code>server</code> function to be re-run automatically, which updates the web page in real time.</p>
+<p>The <code>ui</code> and <code>server</code> objects can be defined in a single file called <code>app.R</code> or as separate files called <code>ui.R</code> and <code>server.R</code>. RStudio provides both as options when creating a new Shiny App from the menu. I’ll use the former approach in what follows here.</p>
 <p>The shortest viable shiny app has four lines of code:</p>
 <pre class="r"><code>library(shiny)
 ui &lt;- fluidPage()
-
 server &lt;- function(input, output){}
-
 shinyApp(ui = ui, server = server)</code></pre>
-<p>Start with this template every time then add elements within the main functions to create your app. For example, we can add inputs and outputs as arguments to the <code>fluidPage()</code> function in the <code>ui</code> object.</p>
+<p>Start with this template every time then add elements to build the functions of your app.</p>
+</div>
+<div id="running-a-shiny-app" class="section level2">
+<h2>Running a Shiny app</h2>
+<p>There are several ways to run a Shiny app:</p>
+<ul>
+<li>Copy &amp; paste the code for the <code>ui</code>, <code>server</code> objects, and then <code>shinyApp(ui = ui, server = server)</code> directly into an R console.<br />
+</li>
+<li>In R, change to the directory containing the <code>app.R</code> file (or separate <code>ui.R</code> and <code>server.R</code> files) and enter <code>runApp()</code> in the console.</li>
+<li>Pass the path to the directory containing <code>app.R</code> as an argument to <code>runApp()</code> (i.e.<code>runApp(&quot;&lt;directory path&gt;&quot;)</code>).</li>
+<li>Open the <code>app.R</code> file in RStudio and click the <strong>run App</strong> console button. Simple!</li>
+</ul>
+<p>Doing any of these will open a browser window running the app. (For the basic template the browser window will of course be empty.)</p>
+<p>Note that a Shiny app runs continuously until it is explicitly closed using the <strong>stop App</strong> button in the RStudio console. Doing so will return control to the R console.</p>
+</div>
+<div id="building-the-ui" class="section level2">
+<h2>Building the ui</h2>
+<p>A UI comprises inputs and outputs. Input elements are things that allow the user to change input parameters like sliders, checkboxes, etc. Output elements are things like plots, tables, etc. Add input and output elements <strong>as arguments</strong> to the <code>fluidPage()</code> function in the <code>ui</code> object.</p>
 <pre class="r"><code>ui &lt;- fluidPage(
-    # *Input() functions
+    # *Input() functions,
     # *Output() functions
 )</code></pre>
-<p>Once we’ve created the inputs, we have to create the code that builds the page within the <code>server</code> object. There are 3 rules to follow when building the server function:</p>
-<ol style="list-style-type: decimal">
-<li>Save objects to display to output$. Make sure each object name corresponds to a name in the output functions defined in the <code>ui</code> object.</li>
-<li>Build objects to display using render*() functions (see below).</li>
-<li>Use <strong>input</strong> values with input$. Each object names corresponds to a name in the input functions defined in the <code>ui</code> object.</li>
-</ol>
-<pre class="r"><code>server &lt;- function(input, output){
-    output$hist &lt;- renderPlot({
-        hist(rnorm(input$num))
-    })
-}</code></pre>
-</div>
-<div id="to-run-a-shiny-app" class="section level2">
-<h2>To run a Shiny app</h2>
-<p>There are several ways to run a Shiny app such as:</p>
+<p>The arguments/elements passed to <code>fluidPage()</code> are a <strong>list</strong>. Note the comma between elements.</p>
+<div id="input-functions" class="section level3">
+<h3>Input functions</h3>
+<p>Shiny has a dozen input functions:</p>
 <ul>
-<li>In R, change to the directory containing the <code>ui</code> and <code>server</code> files and type <code>runApp()</code></li>
-<li>Or make the path to the directory as an argument and type <code>runApp(&quot;directory path&quot;)</code></li>
-<li>Or open the app in RStudio and click the <em>run App</em> button in the console</li>
+<li><code>checkboxInput()</code></li>
+<li><code>checkboxGroupInput()</code></li>
+<li><code>dateInput()</code></li>
+<li><code>dateRangeInput()</code></li>
+<li><code>fileInput()</code></li>
+<li><code>numericInput()</code></li>
+<li><code>selectInput()</code></li>
+<li><code>sliderInput()</code></li>
+<li><code>textInput()</code></li>
+<li><code>passwordInput()</code></li>
+<li><code>radioButtons()</code></li>
+<li><code>actionButton()</code></li>
+<li><code>submitButton()</code></li>
 </ul>
-<p>Doing any of these will open a browser window with the app running.</p>
-<p>Under the hood, the <code>shinyApp()</code> function creats an <code>app</code> object using the <code>ui</code> and <code>server</code> objects as its main arguments. The <code>app</code> object is then passed to the <code>runApp()</code> function.</p>
-<pre class="r"><code>app &lt;- shinyApp(ui = ui, server = server)
-runApp(app)</code></pre>
+<p>The syntax for all input functions is similar:<br />
+<code>sliderInput(inputId = &quot;a name&quot;, label = &quot;a label to display&quot;, ...)</code></p>
+<p>The input specific arguments <code>...</code> vary. To find out what they are, pull up the function help page using, e.g, <code>?sliderInput</code>.</p>
 </div>
-<div id="input-functions" class="section level2">
-<h2>Input functions</h2>
+<div id="output-functions" class="section level3">
+<h3>Output functions</h3>
+<p>Shiny has the following output functions:</p>
+<ul>
+<li><code>plotOutput()</code> <span class="math inline">\(\implies\)</span> a plot</li>
+<li><code>dataTableOutput()</code> <span class="math inline">\(\implies\)</span> an interactive table</li>
+<li><code>tableOutput()</code> <span class="math inline">\(\implies\)</span> a table</li>
+<li><code>imageOutput()</code> <span class="math inline">\(\implies\)</span> an image</li>
+<li><code>textOutput()</code> <span class="math inline">\(\implies\)</span> text</li>
+<li><code>verbatimTextOutput()</code> <span class="math inline">\(\implies\)</span> text</li>
+<li><code>htmlOutput()</code> <span class="math inline">\(\implies\)</span> raw HTML</li>
+<li><code>uiOutput()</code> <span class="math inline">\(\implies\)</span> a Shiny UI element</li>
+</ul>
+<p>The syntax for all output functions is simple: <code>plotOutput(outputId = &quot;a name&quot;)</code>.</p>
+<p>Such simplicity is because the output functions don’t actually do much. They only reserve an empty box in the UI that the server function will fill once “with what” is defined.</p>
 </div>
-<div id="reactivity" class="section level2">
-<h2>Reactivity</h2>
-<p><strong>Reactivity</strong> is a concept integral to Shiny. One way to think about reactivity is to visualize how an Excel spreadsheet works. Any cells that are linked to other cells will automatically change what’s displayed whenever the input cells are updated. In other words, every output cell ‘knows’ when its input cells are invalidated and recalculates in response.</p>
-<p>Shiny has a number of essential reactive functions that build a ‘reactive object’ or a ‘reactive expression’. Each such object comprise a block of ‘reactive code’ to build or rebuild the object, and a set of ‘reactive values’ that the function knows to respond to whenever they change.</p>
 </div>
-<div id="reactive-values-and-functions" class="section level2">
-<h2>Reactive values and functions</h2>
-<p>Reactive values are objects whose value can change <em>at any time in response to user inputs</em>. Because of this property, they are different than regular values in R, which change in response to code. They get defined via the <code>ui</code> object in the input list. That is, they have a defined <code>input$xxx</code> name and source. Once reactive values have been defined, shiny automatically keeps tabs on any changes to their values <strong>and</strong> notifies any functions that depend on their values.</p>
-<p>Reactive values work together with reactive functions. Reactive functions are blocks of code that run whenever their dependent reactive values change. You cannot call a reactive value using a standard function. If you try, R will return an error.</p>
+<div id="building-the-server" class="section level2">
+<h2>Building the server</h2>
+<p>To build the server object, recall it takes two arguments, <code>input</code> and <code>output</code>.</p>
+<pre class="r"><code>server &lt;- function(input, output){}</code></pre>
+<p>There are 3 main rules to follow when building the server function:</p>
+<ol style="list-style-type: decimal">
+<li><p>Create objects to display as elements of the <strong>output</strong> argument by naming them with an <code>output$[name]</code> format. The <code>[name]</code> must correspond to one of the <code>outputId</code> names you defined in the <code>ui</code> output functions.</p></li>
+<li><p>Objects to display must be built using <code>render*()</code> functions (see below), which take as their main argument the block of code that builds the object and include <strong>user-changeable inputs</strong>.</p></li>
+<li><p>Where needed, pass <strong>user-changeable input</strong> values into the <code>render*()</code> functions by naming them with an <code>input$[name]</code> format. The <code>[name]</code> must correspond to one of the <code>inputId</code> names you defined in the <code>ui</code> input functions.</p></li>
+</ol>
+<div id="render_-functions" class="section level3">
+<h3>Render_( ) functions</h3>
+<p>Shiny’s set of <code>render*()</code> functions that make <strong>objects to display</strong> are:</p>
+<ul>
+<li><code>renderDatatable()</code></li>
+<li><code>renderImage()</code></li>
+<li><code>renderPlot()</code></li>
+<li><code>renderPrint()</code></li>
+<li><code>renderTable()</code></li>
+<li><code>renderText()</code></li>
+<li><code>renderUI()</code></li>
+</ul>
+<p>Use <code>?function</code> for more information about each <code>render*()</code> function but in general they take one main argument: the block of code to be executed. This block must be contained within a {_} set, and it can be as long and as complicated as you like. The <strong>entire</strong> block is run whenever the function is notified that it’s out of date because <strong>any</strong> of its user-changeable inputs have changed. Shiny takes care of the notification process.</p>
 </div>
-<div id="render-functions" class="section level2">
-<h2>Render() functions</h2>
-<p>The set of <code>render*()</code> functions are a family of reactive functions that make <strong>objects to display</strong>.<br />
-They are: <code>renderDatatable(), renderImage(), renderPlot(), renderPrint(), renderTable(), renderText(), renderUI()</code>. Use ?function for more information about the details of each function.</p>
-<p>Each <code>render*()</code> function takes one argument, which is the block of code to be executed. This block must be contained within a {} set. The <strong>entire</strong> block is run whenever it is notified that it is out of date because <strong>any</strong> of its reactive values change. The block can be as long or as complicated as you like.</p>
 </div>
-<div id="reactive-function" class="section level2">
-<h2>Reactive() function</h2>
-<p>The <code>reactive()</code> function builds a custom reactive object or reactive expression that you define in order to use in downstream code. As with the <code>render*()</code> functions, <code>reactive()</code> takes as its argument a code block between a {} set, and it will re-run the expression whenever its reactive values change. Reactive expressions cache their values. The expression reruns only if it knows its contents are no longer valid because its inputs have changed.</p>
-<p>Note that the output of <code>reactive()</code> is a function. This means if you want to call the object for subsequent work then you must call it as a function by including () with its name. For example:</p>
-<pre class="r"><code>myReactiveObject &lt;- reactive({&quot;builds something&quot;})</code></pre>
-<p>To use myReactiveObject subsequently then type <code>doSomething(myReactiveObject())</code>. If you leave off the () then R will return the definition of the object.</p>
+<div id="a-simple-example" class="section level2">
+<h2>A simple example</h2>
+<p>Putting it all together, here’s a very simple example that renders a textbox and slider as inputs, and a labelled histogram plot as the output.</p>
+<pre class="r"><code>ui &lt;- fluidPage(
+    textInput(inputId = &quot;hist_title&quot;, label = &quot;enter plot title&quot;),
+    sliderInput(inputId = &quot;num&quot;, label = &quot;choose a number&quot;, 0, 100, 25),
+    plotOutput(outputId = &quot;hist&quot;)
+)
+server &lt;- function(input, output){
+    output$hist &lt;- renderPlot({
+        title &lt;- input$hist_title
+        hist(rnorm(input$num), main=title)
+    })
+}
+shinyApp(ui = ui, server = server)</code></pre>
+<div id="showcase-option" class="section level3">
+<h3>Showcase option</h3>
+<p>A useful option is to run a Shiny app with <code>display.mode = &quot;showcase&quot;</code> as an argument for <code>runApp()</code>. One way to do this is:</p>
+<pre class="r"><code>runApp(appDir = &quot;[directory with my app folder]&quot;, display.mode = &quot;showcase&quot;)</code></pre>
+<p>Another is from the console (assuming <code>ui</code> and <code>server</code> are objects defined in the environment):</p>
+<pre class="r"><code>shinyApp(ui, server, options=list(display.mode=&quot;showcase&quot;))</code></pre>
+<p>When you do this, the app displays the actual code being run. In addition, Shiny highlights the code chunks that are being re-run in reaction to changes to the inputs. This is helpful for learning about reactivity.</p>
 </div>
-<div id="showcase-option" class="section level2">
-<h2>Showcase option</h2>
-<p>A useful feature is to run an app with <code>display.mode = &quot;showcase&quot;</code> as an argument for <code>runApp()</code>.</p>
-<pre class="r"><code>runApp(&quot;my app directory&quot;, display.mode = &quot;showcase&quot;)</code></pre>
-<p>When you do this, the app runs and also displays the actual code being run. In addition, Shiny highlights the code chunks that are being re-run in reaction to changes to the inputs. This is helpful for learning about</p>
-<div id="some-shiny-examples" class="section level3">
-<h3>Some Shiny examples</h3>
 </div>
+<div id="thoughts-on-reactivity" class="section level2">
+<h2>Thoughts on reactivity</h2>
+<p><strong>Reactivity</strong>, i.e. code that <em>reacts</em> to a user changing inputs from a browser, is a concept integral to Shiny. One way to think about reactivity is to visualize how an Excel spreadsheet works. Any cells that are linked to other cells will automatically change what’s displayed whenever the input cells are updated. In other words, every output cell ‘knows’ when its input cells are invalidated and recalculates in response.</p>
+<p>Reactive values are objects whose value can change <strong>at any time in response to user inputs</strong>. Because of this property, they are different than regular values in R, which change in response to code changes. As discussed above, they get defined via the <code>ui</code> object in the input list, and they have a defined <code>input$xxx</code> name and source. Once reactive values have been defined, Shiny automatically keeps tabs on any changes to their values.</p>
+<p>Reactive functions are blocks of code that run whenever their dependent reactive values change. Shiny has a number of built-in reactive functions You cannot call a reactive value using a standard function. If you try, R will return an error.</p>
+<div id="reactive-function" class="section level3">
+<h3>Reactive( ) function</h3>
+<p>The <code>reactive()</code> function allows you to build custom reactive objects or reactive expressions that you define in order to use in downstream code. As with the built-in <code>render*()</code> functions, <code>reactive()</code> takes as its argument a code block between a {_} set, and it will re-run the expression whenever its input reactive values change. Reactive expressions cache their output values. The expression reruns only if it knows its contents are no longer valid because its inputs have changed.</p>
+<p>Note that the output of <code>reactive()</code> is itself a function. This means if you want to call the object for subsequent work then you must call it as a function by including <code>()</code> with its name. For example:</p>
+<pre class="r"><code>myReactiveObject &lt;- reactive({&lt;code that builds something&gt;})</code></pre>
+<p>To use myReactiveObject subsequently you have to type <code>doSomething(myReactiveObject())</code>. If you leave off the <code>()</code> then R will instead return the definition of the object.</p>
+</div>
+</div>
+<div id="more-shiny-examples" class="section level2">
+<h2>More Shiny examples</h2>
 </div>
 
 
