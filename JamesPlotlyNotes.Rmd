@@ -112,7 +112,6 @@ plot_ly(z = ~terrain1, type = "heatmap")
 
 
 ### More plotly resources
-
 - [The Plotly Website](https://plot.ly/)
 - [The Plotly R API](https://plot.ly/r/)
 - [The Plotly R Package on GitHub](https://github.com/ropensci/plotly)

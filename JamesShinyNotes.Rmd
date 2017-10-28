@@ -1,0 +1,138 @@
+---
+title: "Notes for Shiny"
+author: "James Ibbetson"
+date: "9/24/2017"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+### *Disclaimer*
+*The following notes draw heavily from reading Rstudio's tutorials on Shiny. See http://shiny.rstudio.com/tutorial/ for the original source material. To learn more see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).*
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Shiny overview
+Shiny is an R package that creates **interactive** presentations. Interactive means the viewers of the presentation can change the assumptions underlying what's presented and see the results change immediately, as on a web page. 
+
+To get shiny started in R:  
+`install.packages("shiny")`  
+`library(shiny)`
+
+
+## Shiny app structure
+
+Each shiny project or app is contained within a directory whose name is the name of the app. For example, the directory `myCoolApp/` would contain the app **myCoolApp**.
+
+A shiny app consists of two main objects:
+
+- A `ui` object, which defines how your app looks and creates the user input widgets.
+- A `server` function object, which controls what the app does and generates a web page.
+
+These two objects are interdependent. Changes in the ui cause the server function to be re-run, which updates the web page in real time.
+
+Both objects can be defined in a single file called `app.R` or as separate files called `ui.R` and `server.R`. RStudio provides both as options when creating a new Shiny App from the menu. 'Showcase' mode (see below) seems to work better with the latter approach.
+
+
+## Shiny app template
+The shortest viable shiny app has four lines of code:
+```{r eval=FALSE}
+library(shiny)
+ui <- fluidPage()
+
+server <- function(input, output){}
+
+shinyApp(ui = ui, server = server)
+```
+
+Start with this template every time then add elements within the main functions to create your app. For example, we can add inputs and outputs as arguments to the `fluidPage()` function in the `ui` object.
+```{r eval=FALSE}
+ui <- fluidPage(
+    # *Input() functions
+    # *Output() functions
+)
+```
+
+Once we've created the inputs, we have to create the code that builds the page within the `server` object. There are 3 rules to follow when building the server function:  
+
+1. Save objects to display to output$. Make sure each object name corresponds to a name in the output functions defined in the `ui` object.
+2. Build objects to display using render*() functions (see below).
+3. Use **input** values with input$. Each object names corresponds to a name in the input functions defined in the `ui` object.
+```{r eval=FALSE}
+server <- function(input, output){
+    output$hist <- renderPlot({
+        hist(rnorm(input$num))
+    })
+}
+```
+
+## To run a Shiny app
+There are several ways to run a Shiny app such as:
+
+- In R, change to the directory containing the `ui` and `server` files and type `runApp()`
+- Or make the path to the directory as an argument and type `runApp("directory path")`
+- Or open the app in RStudio and click the *run App* button in the console
+
+Doing any of these will open a browser window with the app running.  
+
+Under the hood, the `shinyApp()` function creats an `app` object using the `ui` and `server` objects as its main arguments. The `app` object is then passed to the `runApp()` function.
+
+```{r, eval=FALSE}
+app <- shinyApp(ui = ui, server = server)
+runApp(app)
+```
+
+
+## Input functions
+
+
+
+
+## Reactivity
+
+**Reactivity** is a concept integral to Shiny. One way to think about reactivity is to visualize how an Excel spreadsheet works. Any cells that are linked to other cells will automatically change what's displayed whenever the input cells are updated. In other words, every output cell 'knows' when its input cells are invalidated and recalculates in response.  
+
+Shiny has a number of essential reactive functions that build a 'reactive object' or a 'reactive expression'. Each such object comprise a block of 'reactive code' to build or rebuild the object, and a set of 'reactive values' that the function knows to respond to whenever they change.  
+
+
+## Reactive values and functions
+Reactive values are objects whose value can change *at any time in response to user inputs*. Because of this property, they are different than regular values in R, which change in response to code. They get defined via the `ui` object in the input list. That is, they have a defined `input$xxx` name and source. Once reactive values have been defined, shiny automatically keeps tabs on any changes to their values **and** notifies any functions that depend on their values.
+
+Reactive values work together with reactive functions. Reactive functions are blocks of code that run whenever their dependent reactive values change. You cannot call a reactive value using a standard function. If you try, R will return an error.
+
+
+## Render() functions
+The set of `render*()` functions are a family of reactive functions that make **objects to display**.  
+They are: `renderDatatable(), renderImage(), renderPlot(), renderPrint(), renderTable(), renderText(), renderUI()`. Use ?function for more information about the details of each function.
+
+Each `render*()` function takes one argument, which is the block of code to be executed. This block must be contained within a {} set. The **entire** block is run whenever it is notified that it is out of date because **any** of its reactive values change. The block can be as long or as complicated as you like.
+
+
+## Reactive() function
+The `reactive()` function builds a custom reactive object or reactive expression that you define in order to use in downstream code. As with the `render*()` functions, `reactive()` takes as its argument a code block between a {} set, and it will re-run the expression whenever its reactive values change. Reactive expressions cache their values. The expression reruns only if it knows its contents are no longer valid because its inputs have changed.
+
+Note that the output of `reactive()` is a function. This means if you want to call the object for subsequent work then you must call it as a function by including () with its name. For example:
+
+```{r eval=FALSE}
+myReactiveObject <- reactive({"builds something"})
+```
+
+To use myReactiveObject subsequently then type `doSomething(myReactiveObject())`. If you leave off the () then R will return the definition of the object.
+
+
+## Showcase option
+A useful feature is to run an app with `display.mode = "showcase"` as an argument for `runApp()`. 
+```{r, eval=FALSE}
+runApp("my app directory", display.mode = "showcase")
+```
+
+When you do this, the app runs and also displays the actual code being run. In addition, Shiny highlights the code chunks that are being re-run in reaction to changes to the inputs. This is helpful for learning about 
+
+
+
+### Some Shiny examples
+
+
